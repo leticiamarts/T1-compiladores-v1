@@ -1,0 +1,69 @@
+import java_cup.runtime.*;
+
+parser code {:
+  public void syntax_error(Symbol s) {
+    System.out.println("Erro de sintaxe na linha " + (s.left + 1) + ", coluna " + (s.right + 1) + ".");
+  }
+:};
+
+/* Terminais */
+terminal INTEIRO, REAL, CARACTER, TYPESTRING, IF, ELSE, FOR, WHILE, PRINTF, SCANF;
+terminal EQUAL, PLUS, MINUS, TIMES, DIVIDE, EQEQ, NOTEQ, GT, LT, GTE, LTE, AND, OR;
+terminal LPAREN, RPAREN, LBRACE, RBRACE, SEMI, IDENTIFIER, NUMBER, STRING;
+
+/* Não-terminais */
+non terminal programa, declaracoes, declaracao, comandos, comando, tipo, atribuicao, expressao;
+non terminal expressao_aritmetica, expressao_relacional, expressao_logica, termo;
+non terminal if_else, for_loop, while_loop, printf, scanf;
+
+/* Precedência */
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
+
+/* Gramática */
+programa ::= declaracoes comandos;
+
+declaracoes ::= declaracao | declaracao declaracoes;
+
+declaracao ::= tipo IDENTIFIER SEMI;
+
+tipo ::= INTEIRO | REAL | CARACTER | TYPESTRING;
+
+comandos ::= comando | comando comandos;
+
+comando ::= atribuicao | if_else | for_loop | while_loop | printf | scanf | LBRACE comandos RBRACE;
+
+atribuicao ::= IDENTIFIER EQUAL expressao SEMI;
+
+if_else ::= IF LPAREN expressao RPAREN LBRACE comandos RBRACE
+          | IF LPAREN expressao RPAREN LBRACE comandos RBRACE ELSE LBRACE comandos RBRACE;
+
+for_loop ::= FOR LPAREN atribuicao expressao SEMI atribuicao RPAREN LBRACE comandos RBRACE;
+
+while_loop ::= WHILE LPAREN expressao RPAREN LBRACE comandos RBRACE;
+
+printf ::= PRINTF LPAREN (STRING | IDENTIFIER) RPAREN SEMI;
+
+scanf ::= SCANF LPAREN IDENTIFIER RPAREN SEMI;
+
+expressao ::= expressao_aritmetica
+            | expressao_relacional
+            | expressao_logica;
+
+expressao_aritmetica ::= termo
+                       | termo PLUS expressao_aritmetica
+                       | termo MINUS expressao_aritmetica
+                       | termo TIMES expressao_aritmetica
+                       | termo DIVIDE expressao_aritmetica;
+
+expressao_relacional ::= termo EQEQ termo
+                       | termo NOTEQ termo
+                       | termo GT termo
+                       | termo LT termo
+                       | termo GTE termo
+                       | termo LTE termo;
+
+expressao_logica ::= LPAREN expressao_relacional RPAREN AND LPAREN expressao_relacional RPAREN
+                   | LPAREN expressao_relacional RPAREN OR LPAREN expressao_relacional RPAREN;
+
+termo ::= IDENTIFIER | NUMBER;

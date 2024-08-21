@@ -1,0 +1,2 @@
+inteiro x;
+x == 10; // Erro: Usado '==' em vez de '='
