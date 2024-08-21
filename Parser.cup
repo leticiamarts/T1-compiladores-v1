@@ -1,12 +1,17 @@
 import java_cup.runtime.*;
 
 parser code {:
+    public static void main(String[] args) {
+        try {
+            parser p = new parser(new Lexer(new java.io.FileReader(args[0])));
+            p.parse();
+            System.out.println("Parsing completed.");
+        } catch (Exception e) {
+            System.out.println("Parsing failed: " + e.getMessage());
+        }
+    }
+:}
 
-public void syntax_error(java_cup.runtime.Symbol currToken) {
-      System.out.println("Erro de sintaxe na linha: " + (currToken.left + 1) + ", caractere: " + (currToken.right + 1));
-}
-
-:};
 
 /* Terminals (tokens returned by the scanner). */
 terminal	SEMI, PLUS, MINUS, TIMES, DIVIDE; 
