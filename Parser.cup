@@ -1,69 +1,75 @@
 import java_cup.runtime.*;
 
 parser code {:
-  public void syntax_error(Symbol s) {
-    System.out.println("Erro de sintaxe na linha " + (s.left + 1) + ", coluna " + (s.right + 1) + ".");
-  }
+
+public void syntax_error(java_cup.runtime.Symbol currToken) {
+      System.out.println("Erro de sintaxe na linha: " + (currToken.left + 1) + ", caractere: " + (currToken.right + 1));
+}
+
 :};
 
-/* Terminais */
-terminal INTEIRO, REAL, CARACTER, TYPESTRING, IF, ELSE, FOR, WHILE, PRINTF, SCANF;
-terminal EQUAL, PLUS, MINUS, TIMES, DIVIDE, EQEQ, NOTEQ, GT, LT, GTE, LTE, AND, OR;
-terminal LPAREN, RPAREN, LBRACE, RBRACE, SEMI, IDENTIFIER, NUMBER, STRING;
+/* Terminals (tokens returned by the scanner). */
+terminal	SEMI, PLUS, MINUS, TIMES, DIVIDE; 
+terminal	IF, ELSE, FOR, WHILE, PRINTF, SCANF, STRING;
+terminal	EQUAL, DIFF, GREATER, LESSTHAN, GREATEREQ, LESSTHANEQ;
+terminal	INICIO_BLOCO, FIM_BLOCO, INTEIRO, REAL, CARACTER, TYPESTRING;
+terminal	LPAREN, RPAREN, AND, OR, IDENTIFICADOR, NUMERO;
 
-/* Não-terminais */
-non terminal programa, declaracoes, declaracao, comandos, comando, tipo, atribuicao, expressao;
-non terminal expressao_aritmetica, expressao_relacional, expressao_logica, termo;
-non terminal if_else, for_loop, while_loop, printf, scanf;
+/* Non terminals */
+non terminal	programa, codigo, codigo_lista, codigo_item, tipo, expressao, expressao_relacional, expressao_aritmetica;
+non terminal	operando, operador_aritmetico, operador_relacional;
+non terminal	comandos, bloco_de_comandos, comando_printf, comando_scanf;
+non terminal	declaracao_identificador, atribuicao_identificador;
+non terminal	condicional, comando_for, comando_while;
 
-/* Precedência */
+/* Precedences */
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
 
-/* Gramática */
-programa ::= declaracoes comandos;
+/* The grammar */
+programa ::= codigo;
 
-declaracoes ::= declaracao | declaracao declaracoes;
+codigo ::= codigo_lista;
 
-declaracao ::= tipo IDENTIFIER SEMI;
+codigo_lista ::= codigo_item 
+               | codigo_lista codigo_item;
+
+codigo_item ::= declaracao_identificador 
+              | atribuicao_identificador 
+              | comandos;
+
+declaracao_identificador ::= tipo IDENTIFICADOR SEMI {: System.out.println("Variável declarada."); :};
 
 tipo ::= INTEIRO | REAL | CARACTER | TYPESTRING;
 
-comandos ::= comando | comando comandos;
+atribuicao_identificador ::= IDENTIFICADOR EQUAL expressao_aritmetica SEMI {: System.out.println("Valor numérico atribuído a um identificador."); :}
+                            | IDENTIFICADOR EQUAL STRING SEMI {: System.out.println("String atribuída a um identificador."); :}
+                            | IDENTIFICADOR PLUS PLUS SEMI {: System.out.println("Variável incrementada."); :}
+                            | IDENTIFICADOR MINUS MINUS SEMI {: System.out.println("Variável decrementada."); :};
 
-comando ::= atribuicao | if_else | for_loop | while_loop | printf | scanf | LBRACE comandos RBRACE;
+expressao_aritmetica ::= operando 
+                        | operando operador_aritmetico expressao_aritmetica {: System.out.println("Expressão aritmética encontrada."); :};
 
-atribuicao ::= IDENTIFIER EQUAL expressao SEMI;
+operando ::= NUMERO | IDENTIFICADOR; 
 
-if_else ::= IF LPAREN expressao RPAREN LBRACE comandos RBRACE
-          | IF LPAREN expressao RPAREN LBRACE comandos RBRACE ELSE LBRACE comandos RBRACE;
+operador_aritmetico ::= PLUS | MINUS | TIMES | DIVIDE;
 
-for_loop ::= FOR LPAREN atribuicao expressao SEMI atribuicao RPAREN LBRACE comandos RBRACE;
+expressao_relacional ::= operando operador_relacional operando {: System.out.println("Expressão relacional encontrada."); :};
 
-while_loop ::= WHILE LPAREN expressao RPAREN LBRACE comandos RBRACE;
+operador_relacional ::= EQUAL EQUAL | DIFF | GREATER | LESSTHAN | GREATEREQ | LESSTHANEQ;
 
-printf ::= PRINTF LPAREN (STRING | IDENTIFIER) RPAREN SEMI;
+comandos ::= condicional | comando_for | comando_while | comando_printf | comando_scanf;
 
-scanf ::= SCANF LPAREN IDENTIFIER RPAREN SEMI;
+condicional ::= IF LPAREN expressao_relacional RPAREN bloco_de_comandos {: System.out.println("Comando IF encontrado."); :}
+              | IF LPAREN expressao_relacional RPAREN bloco_de_comandos ELSE bloco_de_comandos {: System.out.println("Comando IF-ELSE encontrado."); :};
 
-expressao ::= expressao_aritmetica
-            | expressao_relacional
-            | expressao_logica;
+bloco_de_comandos ::= INICIO_BLOCO codigo FIM_BLOCO;
 
-expressao_aritmetica ::= termo
-                       | termo PLUS expressao_aritmetica
-                       | termo MINUS expressao_aritmetica
-                       | termo TIMES expressao_aritmetica
-                       | termo DIVIDE expressao_aritmetica;
+comando_for ::= FOR LPAREN atribuicao_identificador SEMI expressao_relacional SEMI atribuicao_identificador RPAREN bloco_de_comandos {: System.out.println("Comando FOR encontrado."); :};
 
-expressao_relacional ::= termo EQEQ termo
-                       | termo NOTEQ termo
-                       | termo GT termo
-                       | termo LT termo
-                       | termo GTE termo
-                       | termo LTE termo;
+comando_while ::= WHILE LPAREN expressao_relacional RPAREN bloco_de_comandos {: System.out.println("Comando WHILE encontrado."); :};
 
-expressao_logica ::= LPAREN expressao_relacional RPAREN AND LPAREN expressao_relacional RPAREN
-                   | LPAREN expressao_relacional RPAREN OR LPAREN expressao_relacional RPAREN;
+comando_printf ::= PRINTF LPAREN STRING RPAREN SEMI {: System.out.println("Comando PRINTF encontrado."); :}
+                 | PRINTF LPAREN IDENTIFICADOR RPAREN SEMI {: System.out.println("Comando PRINTF encontrado."); :};
 
-termo ::= IDENTIFIER | NUMBER;
+comando_scanf ::= SCANF LPAREN IDENTIFICADOR RPAREN SEMI {: System.out.println("Comando SCANF encontrado."); :};
