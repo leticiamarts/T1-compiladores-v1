@@ -10,7 +10,31 @@ oq roda primeiro?
 java -jar "C:\Users\lmart\projects\compiladores\T1-compiladores-v1\tools\jflex-1.9.1\lib\jflex-full-1.9.1.jar" Lexer.jflex
 java -jar "C:\Users\lmart\projects\compiladores\T1-compiladores-v1\tools\java-cup-11b.jar" Parser.cup
 
-changed parser to Parser inside parser.java
-changed parser.java to Parser.java
+change parser to Parser inside parser.java (com F2)
+change parser.java to Parser.java
 
 javac -cp ".;C:/Users/lmart/projects/compiladores/T1-compiladores-v1/tools/java-cup-11b.jar" Lexer.java Parser.java sym.java Main.java
+java -cp ".;C:/Users/lmart/projects/compiladores/T1-compiladores-v1/tools/java-cup-11b-runtime.jar" Main tests/correto1.txt
+
+
+pelo arquivo do professor:
+Para executar, digite os comandos abaixo:
+java -jar "C:\Users\lmart\projects\compiladores\T1-compiladores-v1\tools\jflex-1.9.1\lib\jflex-full-1.9.1.jar" Lexer.jflex
+java -jar "C:\Users\lmart\projects\compiladores\T1-compiladores-v1\tools\java-cup-11b.jar" -parser Parser Parser.cup
+
+nas linhas 231-239 do Parser.java, trocar parser para Parser
+
+    public static void main(String[] args) {
+        try {
+            Parser p = new Parser(new Lexer(new java.io.FileReader(args[0])));
+            p.parse();
+            System.out.println("Parsing completed.");
+        } catch (Exception e) {
+            System.out.println("Parsing failed: " + e.getMessage());
+        }
+    }
+
+javac -Xlint -classpath ".;C:/Users/lmart/projects/compiladores/T1-compiladores-v1/tools/java-cup-11b.jar" *.java
+java -cp ".;C:/Users/lmart/projects/compiladores/T1-compiladores-v1/tools/java-cup-11b-runtime.jar" Main tests/correto1.txt
+
+# LER MATERIAL DO PROFESSOR PARA SABER EXPLICAR
