@@ -15,9 +15,9 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner). */
 terminal SEMI, PLUS, MINUS, TIMES, DIVIDE; 
-terminal IF, ELSE, FOR, WHILE, PRINTF, SCANF, STRING;
+terminal IF, ELSE, FOR, WHILE, PRINTF, SCANF;
 terminal EQUAL, DIFF, GREATER, LESSTHAN, GREATEREQ, LESSTHANEQ;
-terminal INICIO_BLOCO, FIM_BLOCO, INTEIRO, REAL, CARACTER, TYPESTRING;
+terminal INICIO_BLOCO, FIM_BLOCO, INTEIRO, REAL, CARACTER, STRING;
 terminal LPAREN, RPAREN, AND, OR, IDENTIFICADOR, NUMERO, ASSIGN;
 
 /* Non terminals */
@@ -46,7 +46,7 @@ codigo_item ::= declaracao_identificador
 declaracao_identificador ::= tipo IDENTIFICADOR SEMI 
     {: System.out.println("Variavel declarada."); :};
 
-tipo ::= INTEIRO | REAL | CARACTER | TYPESTRING;
+tipo ::= INTEIRO | REAL | CARACTER | STRING;
 
 atribuicao_identificador ::= IDENTIFICADOR ASSIGN expressao_aritmetica SEMI 
     {: System.out.println("Valor numerico atribuido a um identificador."); :}
