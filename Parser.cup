@@ -77,7 +77,7 @@ condicional ::= IF LPAREN expressao_relacional RPAREN bloco_de_comandos
 
 bloco_de_comandos ::= INICIO_BLOCO codigo FIM_BLOCO;
 
-comando_for ::= FOR LPAREN atribuicao_identificador SEMI expressao_relacional SEMI atribuicao_identificador RPAREN bloco_de_comandos 
+comando_for ::= FOR LPAREN atribuicao_identificador expressao_relacional SEMI atribuicao_identificador RPAREN bloco_de_comandos 
     {: System.out.println("Comando FOR encontrado."); :};
 
 comando_while ::= WHILE LPAREN expressao_relacional RPAREN bloco_de_comandos 

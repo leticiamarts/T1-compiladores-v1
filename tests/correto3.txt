@@ -16,7 +16,7 @@ enquanto (num > 50) {
     printar(num);
 }
 
-para (num : 10; num > 0; num--) {
+para (num : 10; num > 0; num--;) {
     printar(num);
 }
 
