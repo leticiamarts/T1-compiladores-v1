@@ -1,0 +1,11 @@
+caractere c;
+c = 'A';
+
+printar("Caractere é ");
+printar(c);
+
+se (c = 'A') {
+    printar("c é igual a 'A'");
+} entao {
+    printar("c não é igual a 'A'");
+}

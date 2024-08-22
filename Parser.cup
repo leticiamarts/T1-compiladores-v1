@@ -13,25 +13,21 @@ parser code {:
 :}
 
 
-/* Terminals (tokens returned by the scanner). */
 terminal SEMI, PLUS, MINUS, TIMES, DIVIDE; 
 terminal IF, ELSE, FOR, WHILE, PRINTF, SCANF;
 terminal EQUAL, DIFF, GREATER, LESSTHAN, GREATEREQ, LESSTHANEQ;
 terminal INICIO_BLOCO, FIM_BLOCO, INTEIRO, REAL, CARACTER, STRING;
 terminal LPAREN, RPAREN, AND, OR, IDENTIFICADOR, NUMERO, ASSIGN;
 
-/* Non terminals */
 non terminal programa, codigo, codigo_lista, codigo_item, tipo, expressao, expressao_relacional, expressao_aritmetica;
 non terminal operando, operador_aritmetico, operador_relacional;
 non terminal comandos, bloco_de_comandos, comando_printf, comando_scanf;
 non terminal declaracao_identificador, atribuicao_identificador;
 non terminal condicional, comando_for, comando_while;
 
-/* Precedences */
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
 
-/* The grammar */
 programa ::= codigo;
 
 codigo ::= codigo_lista;
@@ -52,6 +48,8 @@ atribuicao_identificador ::= IDENTIFICADOR ASSIGN expressao_aritmetica SEMI
     {: System.out.println("Valor numerico atribuido a um identificador."); :}
     | IDENTIFICADOR ASSIGN STRING SEMI 
     {: System.out.println("String atribuida a um identificador."); :}
+    | IDENTIFICADOR ASSIGN CARACTER SEMI 
+    {: System.out.println("Caracter atribuida a um identificador."); :}
     | IDENTIFICADOR PLUS PLUS SEMI 
     {: System.out.println("Variavel incrementada."); :}
     | IDENTIFICADOR MINUS MINUS SEMI 
@@ -59,7 +57,7 @@ atribuicao_identificador ::= IDENTIFICADOR ASSIGN expressao_aritmetica SEMI
 
 expressao_aritmetica ::= operando 
     | operando operador_aritmetico expressao_aritmetica 
-    {: System.out.println("Expressão aritmetica encontrada."); :};
+    {: System.out.println("Expressao aritmetica encontrada."); :};
 
 operando ::= NUMERO | IDENTIFICADOR; 
 

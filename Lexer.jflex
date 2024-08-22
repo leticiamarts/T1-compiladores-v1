@@ -59,7 +59,7 @@ Caracter = \"{Letra}\"
 
 {Identificador} { return symbol(sym.IDENTIFICADOR); }
 \"([^\"\n\r\\]|\\.)*\" { return symbol(sym.STRING, yytext()); }
-{Caracter} { return symbol(sym.CARACTER); }
+{Caracter} { return symbol(sym.CARACTER, yytext()); }
 {Digito}+ { return symbol(sym.NUMERO); }
 {Digito}+[.]{Digito}+ { return symbol(sym.NUMERO); }
 [ \n\t\r]+ { /* Ignorar espaços em branco */ }
