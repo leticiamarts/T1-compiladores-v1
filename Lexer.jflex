@@ -35,17 +35,17 @@ Caracter = \"{Letra}\"
 
 "inteiro" { return symbol(sym.INTEIRO); }
 "real" { return symbol(sym.REAL); }
-"caracter" { return symbol(sym.CARACTER); }
-"string" { return symbol(sym.TYPESTRING); }
-"if" { return symbol(sym.IF); }
-"else" { return symbol(sym.ELSE); }
-"for" { return symbol(sym.FOR); }
-"while" { return symbol(sym.WHILE); }
-"printf" { return symbol(sym.PRINTF); }
-"scanf" { return symbol(sym.SCANF); }
-"==" { return symbol(sym.EQUAL); }
-"!=" { return symbol(sym.DIFF); }
+"caractere" { return symbol(sym.CARACTER); }
+"palavra" { return symbol(sym.TYPESTRING); }
+"se" { return symbol(sym.IF); }
+"entao" { return symbol(sym.ELSE); }
+"para" { return symbol(sym.FOR); }
+"enquanto" { return symbol(sym.WHILE); }
+"printar" { return symbol(sym.PRINTF); }
+"escanear" { return symbol(sym.SCANF); }
 "=" { return symbol(sym.EQUAL); }
+"!=" { return symbol(sym.DIFF); }
+":" { return symbol(sym.ASSIGN); }
 ">" { return symbol(sym.GREATER); }
 "<" { return symbol(sym.LESSTHAN); }
 "<=" { return symbol(sym.LESSTHANEQ); }
