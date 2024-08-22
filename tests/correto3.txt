@@ -1,0 +1,23 @@
+caractere letra;
+inteiro num;
+
+letra : Z;
+num : 100;
+
+printar("Letra é ");
+printar(letra);
+
+se (num <= 100) {
+    printar("num é menor ou igual a 100");
+}
+
+enquanto (num > 50) {
+    num : num - 10;
+    printar(num);
+}
+
+para (num : 10; num > 0; num--) {
+    printar(num);
+}
+
+

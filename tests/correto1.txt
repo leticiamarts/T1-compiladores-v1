@@ -1,5 +1,5 @@
 inteiro x;
 real y;
-x = 10;
-y = x + 5.5;
-printf("Valor de y: %f", y);
+x : 10;
+y : x + 5.5;
+printar(y);
