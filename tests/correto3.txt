@@ -20,4 +20,7 @@ para (num : 10; num > 0; num--;) {
     printar(num);
 }
 
+se ((x > 0) && (y < 5)) {
+    printar("x é positivo e y é menor que 5");
+}
 
