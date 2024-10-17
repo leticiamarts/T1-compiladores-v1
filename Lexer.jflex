@@ -24,7 +24,8 @@ import java_cup.runtime.Symbol;
 
 Digito = [0-9]
 Letra = [a-zA-Z]
-Identificador = {Letra}+({Letra}|{Digito}|\_)*
+Alfa = [a-zA-Z0-9]
+Identificador = \${Letra}+{Alfa}*
 Caracter = \"{Letra}\"
 
 
@@ -61,7 +62,10 @@ Caracter = \"{Letra}\"
 
 {Identificador} { return symbol(sym.IDENTIFICADOR, new String(yytext())); }
 \"([^\"\n\r\\]|\\.)*\" { return symbol(sym.STRING, yytext()); }
-{Digito}+ { return symbol(sym.NUMERO, new Integer(yytext())); }
+{Digito}+ { 
+    System.out.println("Reconhecido como NUMERO: " + yytext());
+    return symbol(sym.INTEIRO, new Integer(yytext())); 
+}
 {Digito}+[.]{Digito}+ { return symbol(sym.REAL, new Float(yytext())); }
 [ \n\t\r]+ { /* Ignorar espaços em branco */ }
-. {  return symbol(sym.error, yytext()); }
+. { System.out.println("Erro ao reconhecer o token: " + yytext()); return symbol(sym.error, yytext()); }

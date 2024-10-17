@@ -1,5 +1,5 @@
-inteiro x;
-real y;
-x : 10;
-y : x + 5.5;
-printar(y);
+inteiro $varx1;
+$varx1 = 10;
+real $vary1;
+$vary1 = $varx1 + 5.5;
+printar($vary1);

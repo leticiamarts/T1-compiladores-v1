@@ -19,12 +19,13 @@ public static void main(String[] args) {
             System.out.println("Parsing failed: " + e.getMessage());
         }
     }
-
+/* 
 public void syntax_error(java_cup.runtime.Symbol currToken) {
     System.out.println("Erro de sintaxe encontrado:");
     System.out.println("Token: '" + currToken.value + "'");
     System.out.println("Linha: " + (currToken.left + 1) + ", Coluna: " + (currToken.right + 1));
 }
+*/
 
 :};
 
