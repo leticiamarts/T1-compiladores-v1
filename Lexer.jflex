@@ -3,28 +3,30 @@ import java_cup.runtime.Symbol;
 %%
 
 %class Lexer
-%unicode 
+%unicode
+
 %cup
 %line
 %column
 
 %{
-    StringBuffer string = new StringBuffer();
+     	StringBuffer string = new StringBuffer();
 %}
 
 %{
-    private Symbol symbol(int type) {
-        return new Symbol(type, yyline, yycolumn);
-    }
-    private Symbol symbol(int type, Object value) {
-        return new Symbol(type, yyline, yycolumn, value);
-    }
+	private Symbol symbol(int type) {
+		return new Symbol(type, yyline, yycolumn);
+	}
+	private Symbol symbol(int type, Object value) {
+		return new Symbol(type, yyline, yycolumn, value);
+	}
 %}
 
 Digito = [0-9]
 Letra = [a-zA-Z]
 Identificador = {Letra}+({Letra}|{Digito}|\_)*
 Caracter = \"{Letra}\"
+
 
 %%
 
@@ -60,5 +62,6 @@ Caracter = \"{Letra}\"
 {Identificador} { return symbol(sym.IDENTIFICADOR); }
 \"([^\"\n\r\\]|\\.)*\" { return symbol(sym.STRING, yytext()); }
 {Digito}+ { return symbol(sym.NUMERO); }
-{Digito}+[.]{Digito}+ { return symbol(sym.NUMERO); }
+{Digito}+[.]{Digito}+ { return symbol(sym.REAL); }
 [ \n\t\r]+ { /* Ignorar espaços em branco */ }
+. {  return symbol(sym.error, yytext()); }

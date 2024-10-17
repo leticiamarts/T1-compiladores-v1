@@ -1,7 +1,16 @@
 import java_cup.runtime.*;
+import java.io.*;
+import java.util.*;
+
+
+action code
+{:
+	AnalisadorSemantico analisadorsemantico = new AnalisadorSemantico();
+	GeradorDeCodigo gerador = new GeradorDeCodigo(); 
+:};
 
 parser code {:
-    public static void main(String[] args) {
+public static void main(String[] args) {
         try {
             Parser p = new Parser(new Lexer(new java.io.FileReader(args[0])));
             p.parse();
@@ -10,12 +19,12 @@ parser code {:
             System.out.println("Parsing failed: " + e.getMessage());
         }
     }
-    
-   public void syntax_error(java_cup.runtime.Symbol currToken) {
-      System.out.println("Erro de sintaxe na linha: "+(currToken.left+1));
-   }
 
-:}
+public void syntax_error(java_cup.runtime.Symbol currToken) {
+      System.out.println("Erro de sintaxe na linha: "+(currToken.left+1)+" caracter: " +(currToken.right+1));
+}
+
+:};
 
 
 terminal SEMI, PLUS, MINUS, TIMES, DIVIDE; 
@@ -25,13 +34,14 @@ terminal INICIO_BLOCO, FIM_BLOCO, INTEIRO, REAL, CARACTER, STRING;
 terminal LPAREN, RPAREN, AND, OR, IDENTIFICADOR, NUMERO, ASSIGN;
 
 non terminal programa, codigo, codigo_lista, codigo_item, tipo, expressao, expressao_relacional, expressao_logica, expressao_aritmetica;
-non terminal operando, operador_aritmetico, operador_relacional, operador_logico;
+non terminal operando, operador_aritmetico, operador_relacional, operador_logico, dados;
 non terminal comandos, bloco_de_comandos, comando_printf, comando_scanf;
 non terminal declaracao_identificador, atribuicao_identificador;
 non terminal condicional, comando_for, comando_while;
 
 precedence left PLUS, MINUS;
 precedence left TIMES, DIVIDE;
+precedence left LPAREN;
 precedence left OR;
 precedence left AND;
 
@@ -46,67 +56,115 @@ codigo_item ::= declaracao_identificador
               | atribuicao_identificador 
               | comandos;
 
-declaracao_identificador ::= tipo IDENTIFICADOR SEMI 
-    {: System.out.println("Variavel declarada."); :};
+declaracao_identificador ::= tipo:tipo IDENTIFICADOR:var SEMI 
+	{: RESULT = "DECLARACAO DE VARIAVEL [" + var + "] do tipo: " + tipo; analisadorsemantico.inserir_simbolo(var, tipo); :};
 
-tipo ::= INTEIRO | REAL | CARACTER | STRING;
 
-atribuicao_identificador ::= IDENTIFICADOR ASSIGN expressao_aritmetica SEMI 
-    {: System.out.println("Valor numerico atribuido a um identificador."); :}
-    | IDENTIFICADOR ASSIGN STRING SEMI 
-    {: System.out.println("String atribuida a um identificador."); :}
-    | IDENTIFICADOR ASSIGN CARACTER SEMI 
-    {: System.out.println("Caracter atribuida a um identificador."); :}
-    | IDENTIFICADOR PLUS PLUS SEMI 
-    {: System.out.println("Variavel incrementada."); :}
-    | IDENTIFICADOR MINUS MINUS SEMI 
-    {: System.out.println("Variavel decrementada."); :};
+tipo ::= INTEIRO {: RESULT = "inteiro"; :}
+	| REAL {: RESULT = "real"; :}
+	| CARACTER {: RESULT = "char"; :}
+	| STRING {: RESULT = "string"; :} ;
 
-expressao_aritmetica ::= operando 
-    | operando operador_aritmetico expressao_aritmetica 
-    {: System.out.println("Expressao aritmetica encontrada."); :};
+dados ::= INTEIRO:data {: RESULT = data; :} 
+	| REAL:data {: RESULT = data; :}
+	| STRING:data {: RESULT = data; :}
+	| CARACTER:data {: RESULT = data; :}; 
 
-operando ::= NUMERO | IDENTIFICADOR; 
 
-operador_aritmetico ::= PLUS | MINUS | TIMES | DIVIDE;
+expressao::=  atribuicao_identificador:s SEMI {: RESULT = s; :}
+	| expressao_relacional:exp_rel {: RESULT = exp_rel; :} 
+	| expressao_aritmetica SEMI 
+	| expressao_logica 
+;
 
-expressao_relacional ::= operando operador_relacional operando 
-    {: System.out.println("Expressao relacional encontrada."); :}
-    | LPAREN expressao_relacional RPAREN
-    {: System.out.println("Expressao relacional encontrada."); :};
+atribuicao_identificador ::= IDENTIFICADOR:ident EQUAL dados:data SEMI
+		{: 	if(analisadorsemantico.verificar_atribuicao(ident, data)) RESULT = "variavel: "+ ident + " atribuida a um valor: " + data;
+			else RESULT = "ERRO SEMANTICO";   
+		:}	     
+	| IDENTIFICADOR:ident PLUS PLUS 
+		{: 
+			if(analisadorsemantico.verificar_incremento_dcremento(ident)) RESULT = "variavel: "+ ident + " incrementada";
+			else RESULT = "ERRO SEMANTICO"; 
+		:}
+	| IDENTIFICADOR:ident MINUS MINUS 
+		{: 
+			if(analisadorsemantico.verificar_incremento_dcremento(ident)) RESULT = "variavel: "+ ident + " decrementada";
+			else RESULT = "ERRO SEMANTICO"; 
+		:}
+;
 
-operador_relacional ::= EQUAL EQUAL | DIFF | GREATER | LESSTHAN | GREATEREQ | LESSTHANEQ;
+expressao_relacional ::= dados:data1 operador_relacional:op dados:data2 SEMI
+	{: 
+		if(analisadorsemantico.verificar_expressao_relacional_entre_dados(data1, data2, op)) RESULT = data1 + "" + op + "" + data2;
+		else RESULT = "ERRO SEMANTICO"; 
+	:}
+	| IDENTIFICADOR:var1 operador_relacional:op IDENTIFICADOR:var2 
+	{: 
+		if(analisadorsemantico.verificar_expressao_relacional_entre_variaveis(var1, var2, op)) RESULT = var1 + "" + op + "" + var2;
+		else RESULT = "ERRO SEMANTICO"; 
+	:}
+	| dados:data operador_relacional:op IDENTIFICADOR:var
+	{: 
+		if(analisadorsemantico.verificar_expressao_relacional_mista(data, var, op)) RESULT =  data + "" + op + "" + var;
+		else RESULT = "ERRO SEMANTICO"; 
+	:}
+	| IDENTIFICADOR:var operador_relacional:op dados:data 
+	{: 
+		if(analisadorsemantico.verificar_expressao_relacional_mista(data, var, op)) RESULT =  var + "" + op + "" + data;
+		else RESULT = "ERRO SEMANTICO"; 
+	:}
+;
 
-expressao_logica ::= expressao_logica operador_logico expressao_logica
-    | expressao_relacional operador_logico expressao_relacional
-    | LPAREN expressao_logica RPAREN
-    {: System.out.println("Expressao logica encontrada."); :};
+operador_relacional::= EQUAL EQUAL {: RESULT = "="; :}
+	| DIFF {: RESULT = "!="; :}
+	| GREATER {: RESULT = ">"; :}
+	| LESSTHAN {: RESULT = "<"; :}
+	| GREATEREQ {: RESULT = ">="; :}
+	| LESSTHANEQ {: RESULT = "<="; :}
+;
 
-operador_logico ::= AND | OR;
+expressao_aritmetica::= operando:op {: RESULT = op; :}
+	| operando:op operador_aritmetico expressao_aritmetica {:  RESULT = op; System.out.println("Expressao aritmetica encontrada \n "); :};
 
-comandos ::= condicional | comando_for | comando_while | comando_printf | comando_scanf;
+operando ::= INTEIRO:op {: RESULT = op; :} | IDENTIFICADOR:op {: RESULT = op; :}| REAL:op {: RESULT = op; :}; 
 
-condicional ::= IF LPAREN expressao RPAREN bloco_de_comandos 
-    {: System.out.println("Comando IF encontrado."); :}
-    | IF LPAREN expressao RPAREN bloco_de_comandos ELSE bloco_de_comandos 
-    {: System.out.println("Comando IF-ELSE encontrado."); :};
+operador_aritmetico::= PLUS | MINUS | TIMES | DIVIDE;
 
-bloco_de_comandos ::= INICIO_BLOCO codigo FIM_BLOCO;
+expressao_logica::= expressao_relacional operador_logico expressao_relacional
+		{: System.out.println("Expressao logica encontrada \n "); :};
 
-comando_for ::= FOR LPAREN atribuicao_identificador expressao_relacional SEMI atribuicao_identificador RPAREN bloco_de_comandos 
-    {: System.out.println("Comando FOR encontrado."); :};
+/* expressao_logica::= LPAREN expressao_relacional RPAREN operador_logico LPAREN expressao_relacional RPAREN 
+		{: System.out.println("Expressao logica encontrada \n "); :}; */
 
-comando_while ::= WHILE LPAREN expressao RPAREN bloco_de_comandos 
-    {: System.out.println("Comando WHILE encontrado."); :};
+operador_logico::= AND | OR ;	
+          
+comandos::= condicional:c {: RESULT = c; :}
+	| comando_for:c {: RESULT = c; :} 
+	| comando_while:c {: RESULT = c; :} 
+	| comando_printf:c {: RESULT = c; :} 
+	| comando_scanf:c {: RESULT = c; :}
+;
 
-comando_printf ::= PRINTF LPAREN STRING RPAREN SEMI 
-    {: System.out.println("Comando PRINTF encontrado."); :}
-    | PRINTF LPAREN IDENTIFICADOR RPAREN SEMI 
-    {: System.out.println("Comando PRINTF encontrado."); :};
+condicional::= IF LPAREN expressao_relacional:condicao RPAREN bloco_de_comandos:codigo1 ELSE  bloco_de_comandos:codigo2 
+			{: 	
+				RESULT = "\nComando IF ELSE com a condicao: " + condicao + "\n     se verdadeira executa: " + codigo1 + "\n     senao executa: " + codigo2 + " \n ";
+			  	gerador.gerar_condicional(condicao);
+			:}
+		| IF LPAREN expressao_logica RPAREN bloco_de_comandos ELSE  bloco_de_comandos {: RESULT ="Comando IF ELSE com expressao logica encontrado"; :}
+;
 
-comando_scanf ::= SCANF LPAREN IDENTIFICADOR RPAREN SEMI 
-    {: System.out.println("Comando SCANF encontrado."); :};
+bloco_de_comandos::= INICIO_BLOCO comandos:c FIM_BLOCO {: RESULT = c; :};
 
-expressao ::= expressao_relacional 
-            | expressao_aritmetica
-            | expressao_logica;
+comando_for::= FOR LPAREN atribuicao_identificador SEMI expressao_relacional SEMI atribuicao_identificador RPAREN bloco_de_comandos 
+	{: RESULT = "Comando FOR encontrado"; :};
+
+comando_while::= WHILE LPAREN expressao_relacional RPAREN bloco_de_comandos {: System.out.println("Comando WHILE encontrado\n "); :};
+
+comando_printf::= PRINTF LPAREN STRING:strg RPAREN SEMI {: RESULT = "Comando printf imprimindo " + strg ; gerador.gerar_printf(strg); :} 
+	| PRINTF LPAREN IDENTIFICADOR :var RPAREN SEMI{: RESULT = "Comando printf imprime variavel, com valor: " + var; :}
+	|PRINTF LPAREN CARACTER:caracter RPAREN SEMI{: RESULT = "Comando printf imprime caracter, com valor: " + caracter; gerador.gerar_printf(caracter);:};
+
+comando_scanf::= SCANF LPAREN IDENTIFICADOR:var RPAREN SEMI 
+	{:	if(analisadorsemantico.verificar_scanf(var)) RESULT ="Comando SCANF, lendo a variavel [" + var + "]";
+		else RESULT = "ERRO SEMANTICO no SCANF";
+	:};

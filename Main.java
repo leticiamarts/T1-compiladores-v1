@@ -1,27 +1,29 @@
+
+import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java_cup.runtime.Symbol;
+import java_cup.runtime.*;
 
-public class Main {
+class Main {
 
-    public static void main(String[] args) {
-        if (args.length < 1) {
-            System.err.println("Usage: java Main <input file>");
-            return;
-        }
+  static boolean do_debug_parse = false;
 
-        try {
-            // Cria o objeto Lexer (analisador léxico) usando o arquivo de entrada
-            Lexer lexer = new Lexer(new FileReader(args[0]));
+  static public void main(String[] args) throws java.io.IOException {
 
-            // Cria o objeto Parser (analisador sintático) com base no Lexer
-            Parser parser = new Parser(lexer);
+      /* create a parsing object */
+      Parser parser_obj = new Parser(new Lexer(new FileReader(args[0])));
 
-            // Tenta realizar a análise sintática do código-fonte
-            parser.parse();
-            System.out.println("Análise sintática concluída com sucesso.");
-        } catch (Exception e) {
-            System.err.println("Erro durante a análise: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
+      /* open input files, etc. here */
+      Symbol parse_tree = null;
+
+      try {
+        if (do_debug_parse)
+          parse_tree = parser_obj.debug_parse();
+        else
+          parse_tree = parser_obj.parse();
+      } catch (Exception e) {
+          System.out.println("Erro");
+      } finally {
+	/* do close out here */
+      }
+  }
 }
