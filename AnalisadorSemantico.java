@@ -71,7 +71,7 @@ public class AnalisadorSemantico {
 					condicao_legal = false;
 				}
 			}
-			else if (operador.equals("=")){
+			else if (operador.equals("==")){
 				if(!id1.equals(id2)){
 					System.out.println("O operador igual so pode ser relacionado a variaveis de mesmo tipo");
 					condicao_legal = false;

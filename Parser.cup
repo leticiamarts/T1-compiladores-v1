@@ -64,8 +64,8 @@ declaracao_identificador ::= tipo:tipo IDENTIFICADOR:var SEMI
 
 tipo ::= INTEIRO {: RESULT = "inteiro"; :}
 	| REAL {: RESULT = "real"; :}
-	| CARACTER {: RESULT = "char"; :}
-	| STRING {: RESULT = "string"; :} ;
+	| CARACTER {: RESULT = "caracter"; :}
+	| STRING {: RESULT = "palavra"; :} ;
 
 dados ::= INTEIRO:data {: RESULT = data; :} 
 	| REAL:data {: RESULT = data; :}
@@ -117,7 +117,7 @@ expressao_relacional ::= dados:data1 operador_relacional:op dados:data2 SEMI
 	:}
 ;
 
-operador_relacional::= EQUAL EQUAL {: RESULT = "="; :}
+operador_relacional::= EQUAL EQUAL {: RESULT = "=="; :}
 	| DIFF {: RESULT = "!="; :}
 	| GREATER {: RESULT = ">"; :}
 	| LESSTHAN {: RESULT = "<"; :}
