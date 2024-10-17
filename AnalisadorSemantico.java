@@ -19,15 +19,15 @@ public class AnalisadorSemantico {
 				System.out.println("Erro: Variavel [" + variavel + "] eh do tipo inteiro e nao pode receber um valor decimal");
 				condicao_legal = false;
 			}
-			else if((id.equals("float") || id.equals("inteiro")) && valor.toString().contains("\"")) {
+			else if((id.equals("real") || id.equals("inteiro")) && valor.toString().contains("\"")) {
 				System.out.println("Erro: Variavel [" + variavel + "] eh do tipo '"+ id +"' e deve receber um valor numerico");
 				condicao_legal = false;
 			}
-			else if((id.equals("string") || id.equals("char")) && !valor.toString().contains("\"")) {
+			else if((id.equals("palavra") || id.equals("caracter")) && !valor.toString().contains("\"")) {
 				System.out.println("Erro: Variavel [" + variavel + "] eh do tipo '"+ id + "' e nao pode receber valor numerico");
 				condicao_legal = false;
 			}
-			else if(id.equals("char") && valor.toString().length()>3) {
+			else if(id.equals("caracter") && valor.toString().length()>3) {
 				System.out.println("Erro: Variavel [" + variavel + "] eh do tipo char e nao pode receber uma string");
 				condicao_legal = false;
 			}
@@ -65,13 +65,13 @@ public class AnalisadorSemantico {
 			String id2 = tabelaSimbolos.get(var2).toString();
 
 			if (operador.equals(">") || operador.equals("<") || operador.equals("<=")|| operador.equals(">=")) {
-				if( id1.equals("char") || id2.equals("char") || id1.equals("string") || id2.equals("string") ){
+				if( id1.equals("caracter") || id2.equals("caracter") || id1.equals("palavra") || id2.equals("palavra") ){
 					
 					System.out.println("Os operadores de Maior, Menor, Maior Igual ou Menor Igual so podem ser relacionados a numeros");
 					condicao_legal = false;
 				}
 			}
-			else if (operador.equals("==")){
+			else if (operador.equals("=")){
 				if(!id1.equals(id2)){
 					System.out.println("O operador igual so pode ser relacionado a variaveis de mesmo tipo");
 					condicao_legal = false;
@@ -104,7 +104,7 @@ public class AnalisadorSemantico {
 		String operador = op.toString();
 		String id = tabelaSimbolos.get(variavel).toString();
 
-		System.out.println("expressamo mista");
+		System.out.println("expressao mista");
 
 		if(tabelaSimbolos.get(variavel)==null) {
 			System.out.println("Erro: Variavel [" + variavel + "] precisa ser declarada antes de ser usada.");
@@ -112,7 +112,7 @@ public class AnalisadorSemantico {
 		}
 
 		if (operador.equals(">") || operador.equals("<") || operador.equals("<=")|| operador.equals(">=")) {
-				if( dado.toString().contains("\"") || id.equals("char") || id.equals("string") ){
+				if( dado.toString().contains("\"") || id.equals("caracter") || id.equals("palavra") ){
 					
 					System.out.println("Os operadores de Maior, Menor, Maior Igual ou Menor Igual so podem ser relacionados a numeros");
 					condicao_legal = false;

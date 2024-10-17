@@ -59,9 +59,9 @@ Caracter = \"{Letra}\"
 ")" { return symbol(sym.RPAREN); }
 ";" { return symbol(sym.SEMI); }
 
-{Identificador} { return symbol(sym.IDENTIFICADOR); }
+{Identificador} { return symbol(sym.IDENTIFICADOR, new String(yytext())); }
 \"([^\"\n\r\\]|\\.)*\" { return symbol(sym.STRING, yytext()); }
-{Digito}+ { return symbol(sym.NUMERO); }
-{Digito}+[.]{Digito}+ { return symbol(sym.REAL); }
+{Digito}+ { return symbol(sym.NUMERO, new Integer(yytext())); }
+{Digito}+[.]{Digito}+ { return symbol(sym.REAL, new Float(yytext())); }
 [ \n\t\r]+ { /* Ignorar espaços em branco */ }
 . {  return symbol(sym.error, yytext()); }
