@@ -25,7 +25,7 @@ import java_cup.runtime.Symbol;
 Digito = [0-9]
 Letra = [a-zA-Z]
 Alfa = [a-zA-Z0-9]
-Identificador = \${Letra}+{Alfa}*
+Identificador = \#{Letra}+{Alfa}*
 Caracter = \"{Letra}\"
 
 
