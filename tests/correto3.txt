@@ -11,7 +11,7 @@ printar(#letra1);
 se (#numero1 >= 99) {
     printar("numero e menor ou igual a 100");
 }
-entao{
+senao{
     printar("numero nao e menor ou igual a 100");
 }
 
@@ -29,7 +29,7 @@ inteiro #numero2;
 se (#numero1 > 0 && #numero2 < 5) {
     printar("x é positivo e y é menor que 5");
 }
-entao{
+senao{
     printar("x nao e positivo e y nao e menor que 5");
 }
 

@@ -9,13 +9,13 @@ printar(#variavelA1);
 printar(#variavelB1);
 #variavelP1 = "Exemplo";
 
-printar("O valor de #variavelA1 é ");
+printar("O valor de #variavelA1 e ");
 printar(#variavelA1);
 
 se (#variavelA1 >= 14) {
     printar(#variavelA1);
 }
-entao{
+senao{
     printar(#variavelA1);
 }
 
