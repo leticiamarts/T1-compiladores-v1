@@ -3,10 +3,11 @@ try add to path so it can be relative
 my desktop:
 java -jar "C:\Program Files\java_tools\jflex-1.9.1\lib\jflex-full-1.9.1.jar" Lexer.jflex
 java -jar "C:\Program Files\java_tools\java-cup-11b.jar" Parser.cup
-javac -cp ".;C:/Program Files/java_tools/java-cup-11b.jar" Lexer.java parser.java sym.java Main.java
+change parser.java and parser inside parser.java to Parser and Parser.java
+javac -cp ".;C:/Program Files/java_tools/java-cup-11b.jar" *.java
+java -cp ".;C:/Program Files/java_tools/java-cup-11b-runtime.jar" Main tests/correto1.txt
 
 my notebook:
-oq roda primeiro?
 java -jar "C:\Users\lmart\projects\compiladores\T1-compiladores-v1\tools\jflex-1.9.1\lib\jflex-full-1.9.1.jar" Lexer.jflex
 java -jar "C:\Users\lmart\projects\compiladores\T1-compiladores-v1\tools\java-cup-11b.jar" Parser.cup
 
@@ -36,5 +37,3 @@ nas linhas 231-239 do Parser.java, trocar parser para Parser
 
 javac -Xlint -classpath ".;C:/Users/lmart/projects/compiladores/T1-compiladores-v1/tools/java-cup-11b.jar" *.java
 java -cp ".;C:/Users/lmart/projects/compiladores/T1-compiladores-v1/tools/java-cup-11b-runtime.jar" Main tests/correto1.txt
-
-# LER MATERIAL DO PROFESSOR PARA SABER EXPLICAR
