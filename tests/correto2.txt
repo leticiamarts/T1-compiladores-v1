@@ -1,26 +1,30 @@
-inteiro a;
-real b;
-palavra p;
+inteiro #variavelA1;
+real #variavelB1;
+palavra #variavelP1;
+inteiro #variavelI1;
 
-a : 15;
-b : 30.5;
-p : "Exemplo";
+#variavelA1 = 15;
+printar(#variavelA1);
+#variavelB1 = 30.5;
+printar(#variavelB1);
+#variavelP1 = "Exemplo";
 
-printar("O valor de a é ");
-printar(a);
+printar("O valor de #variavelA1 é ");
+printar(#variavelA1);
 
-se (a >= 15) {
-    printar("a é igual a 15");
+se (#variavelA1 >= 14) {
+    printar(#variavelA1);
+}
+entao{
+    printar(#variavelA1);
 }
 
-enquanto (b > 10) {
-    b : b - 1.5;
-    printar(b);
+#variavelA1 = 13;
+enquanto (#variavelA1 > 14) {
+    printar(#variavelA1);
 }
 
-para (a : 0; a < 5; a++;) {
-    a : a + 2;
-    printar(a);
+para (#variavelI1 = 0;; #variavelI1 < 5; #variavelI1++) {
+    printar(#variavelI1);
 }
-
 

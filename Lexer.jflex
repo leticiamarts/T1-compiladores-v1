@@ -36,7 +36,7 @@ Caracter = \"{Letra}\"
 "caractere" { return symbol(sym.CARACTER); }
 "palavra" { return symbol(sym.STRING); }
 "se" { return symbol(sym.IF); }
-"entao" { return symbol(sym.ELSE); }
+"senao" { return symbol(sym.ELSE); }
 "para" { return symbol(sym.FOR); }
 "enquanto" { return symbol(sym.WHILE); }
 "printar" { return symbol(sym.PRINTF); }

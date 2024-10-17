@@ -1,26 +1,35 @@
-caractere letra;
-inteiro num;
+caractere #letra1;
+inteiro #numero1;
 
-letra : Z;
-num : 100;
+#letra1 = "Z";
+#numero1 = 100;
 
-printar("Letra é ");
-printar(letra);
+printar("Letra e");
 
-se (num <= 100) {
-    printar("num é menor ou igual a 100");
+printar(#letra1);
+
+se (#numero1 >= 99) {
+    printar("numero e menor ou igual a 100");
+}
+entao{
+    printar("numero nao e menor ou igual a 100");
 }
 
-enquanto (num > 50) {
-    num : num - 10;
-    printar(num);
+enquanto (#numero1 > 50) {
+    printar(#numero1);
 }
 
-para (num : 10; num > 0; num--;) {
-    printar(num);
+para (#numero1 = 10;; #numero1 > 0; #numero1--) {
+    printar(#numero1);
 }
 
-se ((x > 0) && (y < 5)) {
+inteiro #numero2;
+#numero2 = 3;
+
+se (#numero1 > 0 && #numero2 < 5) {
     printar("x é positivo e y é menor que 5");
+}
+entao{
+    printar("x nao e positivo e y nao e menor que 5");
 }
 
