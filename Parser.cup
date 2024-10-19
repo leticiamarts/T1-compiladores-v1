@@ -9,23 +9,12 @@ action code
 	GeradorDeCodigo gerador = new GeradorDeCodigo(); 
 :};
 
+
 parser code {:
-public static void main(String[] args) {
-        try {
-            Parser p = new Parser(new Lexer(new java.io.FileReader(args[0])));
-            p.parse();
-            System.out.println("Parsing completed.");
-        } catch (Exception e) {
-            System.out.println("Parsing failed: " + e.getMessage());
-        }
-    }
-/* 
+
 public void syntax_error(java_cup.runtime.Symbol currToken) {
-    System.out.println("Erro de sintaxe encontrado:");
-    System.out.println("Token: '" + currToken.value + "'");
-    System.out.println("Linha: " + (currToken.left + 1) + ", Coluna: " + (currToken.right + 1));
+      System.out.println("Erro de sintaxe na linha: "+(currToken.left+1));
 }
-*/
 
 :};
 
@@ -52,12 +41,16 @@ programa ::= codigo;
 
 codigo ::= codigo_lista;
 
-codigo_lista ::= codigo_item 
-               | codigo_lista codigo_item;
-
-codigo_item ::= declaracao_identificador 
-              | atribuicao_identificador 
-              | comandos;
+codigo_lista ::= codigo_item:s
+				{: System.out.println(s); :}
+               | codigo_lista codigo_item:s
+			   {: System.out.println(s); :};
+codigo_item ::= declaracao_identificador:s
+			  {: System.out.println(s); :}  
+              | atribuicao_identificador:s
+			  {: System.out.println(s); :}
+              | comandos:s
+			  {: System.out.println(s); :};
 
 declaracao_identificador ::= tipo:tipo IDENTIFICADOR:var SEMI 
 	{: RESULT = "DECLARACAO DE VARIAVEL [" + var + "] do tipo: " + tipo; analisadorsemantico.inserir_simbolo(var, tipo); :};

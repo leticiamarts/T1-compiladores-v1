@@ -62,10 +62,7 @@ Caracter = \"{Letra}\"
 
 {Identificador} { return symbol(sym.IDENTIFICADOR, new String(yytext())); }
 \"([^\"\n\r\\]|\\.)*\" { return symbol(sym.STRING, yytext()); }
-{Digito}+ { 
-    System.out.println("Reconhecido como NUMERO: " + yytext());
-    return symbol(sym.INTEIRO, new Integer(yytext())); 
-}
+{Digito}+ { return symbol(sym.INTEIRO, new Integer(yytext())); }
 {Digito}+[.]{Digito}+ { return symbol(sym.REAL, new Float(yytext())); }
 [ \n\t\r]+ { /* Ignorar espaços em branco */ }
 . { System.out.println("Erro ao reconhecer o token: " + yytext()); return symbol(sym.error, yytext()); }

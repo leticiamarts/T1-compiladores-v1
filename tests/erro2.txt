@@ -1,14 +1,4 @@
-real b;
-b = 20.5
-
-printar("Valor de b");
-printar(b);
-
-para (b = 0; b < 5; b++) {
-    printar(b);
-}
-
-enquanto (b > 10) {
-    b = b - 1;
-    printar(b);
+inteiro #variavel1;
+palavra #variavel2;
+se (#variavel1 == #variavel2) {
 }

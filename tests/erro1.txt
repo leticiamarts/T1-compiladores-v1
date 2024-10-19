@@ -1,2 +1,2 @@
-inteiro x;
-x == 10; // Erro: Usado '==' em vez de '='
+inteiro #varx1;
+#varx1 = "Texto";

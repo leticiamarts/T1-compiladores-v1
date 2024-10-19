@@ -1,0 +1,114 @@
+
+.intel_syntax noprefix
+
+.extern _printf
+.global _printf2
+
+_texto: .ascii "O valor de #variavelA1 e \0"
+
+_printf2:
+    push ebp
+    mov ebp, esp
+
+    push OFFSET _texto
+    call _printf
+    add esp, 4
+
+    pop ebp
+    ret
+
+mov eax, #variavelA1
+cmp eax, 
+jle else
+.intel_syntax noprefix
+
+.extern _printf
+.global _printf2
+
+_texto: .ascii "Letra e\0"
+
+_printf2:
+    push ebp
+    mov ebp, esp
+
+    push OFFSET _texto
+    call _printf
+    add esp, 4
+
+    pop ebp
+    ret
+
+.intel_syntax noprefix
+
+.extern _printf
+.global _printf2
+
+_texto: .ascii "numero e menor ou igual a 100\0"
+
+_printf2:
+    push ebp
+    mov ebp, esp
+
+    push OFFSET _texto
+    call _printf
+    add esp, 4
+
+    pop ebp
+    ret
+
+.intel_syntax noprefix
+
+.extern _printf
+.global _printf2
+
+_texto: .ascii "numero nao e menor ou igual a 100\0"
+
+_printf2:
+    push ebp
+    mov ebp, esp
+
+    push OFFSET _texto
+    call _printf
+    add esp, 4
+
+    pop ebp
+    ret
+
+mov eax, #numero1
+cmp eax, 
+jle else
+.intel_syntax noprefix
+
+.extern _printf
+.global _printf2
+
+_texto: .ascii "x é positivo e y é menor que 5\0"
+
+_printf2:
+    push ebp
+    mov ebp, esp
+
+    push OFFSET _texto
+    call _printf
+    add esp, 4
+
+    pop ebp
+    ret
+
+.intel_syntax noprefix
+
+.extern _printf
+.global _printf2
+
+_texto: .ascii "x nao e positivo e y nao e menor que 5\0"
+
+_printf2:
+    push ebp
+    mov ebp, esp
+
+    push OFFSET _texto
+    call _printf
+    add esp, 4
+
+    pop ebp
+    ret
