@@ -1,4 +1,1 @@
-inteiro #variavel1;
-palavra #variavel2;
-se (#variavel1 == #variavel2) {
-}
+#varx1 : "Texto";

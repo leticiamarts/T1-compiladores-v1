@@ -1,2 +1,2 @@
 inteiro #varx1;
-#varx1 = "Texto";
+#varx1 : "Texto";

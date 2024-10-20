@@ -1,5 +1,5 @@
 inteiro #varx1;
-#varx1 = 10;
+#varx1 : 10;
 real #vary1;
-#vary1 = 5.5;
+#vary1 : 5.5;
 printar(#vary1);

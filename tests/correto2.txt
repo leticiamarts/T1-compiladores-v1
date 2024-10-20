@@ -3,11 +3,11 @@ real #variavelB1;
 palavra #variavelP1;
 inteiro #variavelI1;
 
-#variavelA1 = 15;
+#variavelA1 : 15;
 printar(#variavelA1);
-#variavelB1 = 30.5;
+#variavelB1 : 30.5;
 printar(#variavelB1);
-#variavelP1 = "Exemplo";
+#variavelP1 : "Exemplo";
 
 printar("O valor de #variavelA1 e ");
 printar(#variavelA1);
@@ -19,12 +19,12 @@ senao{
     printar(#variavelA1);
 }
 
-#variavelA1 = 13;
+#variavelA1 : 13;
 enquanto (#variavelA1 > 14) {
     printar(#variavelA1);
 }
 
-para (#variavelI1 = 0;; #variavelI1 < 5; #variavelI1++) {
+para (#variavelI1 : 0;; #variavelI1 < 5; #variavelI1++) {
     printar(#variavelI1);
 }
 

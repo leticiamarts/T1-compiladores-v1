@@ -32,9 +32,6 @@ public class AnalisadorSemantico {
 				condicao_legal = false;
 			}
 		}
-		if(condicao_legal){
-			System.out.println("Condicao legal!");
-		}
 		return condicao_legal;
 	}
 
@@ -85,9 +82,6 @@ public class AnalisadorSemantico {
 			}
 				
 		}
-		if(condicao_legal){
-			System.out.println("Condicao legal!");
-		}
 		return condicao_legal;
 
 	}
@@ -129,9 +123,6 @@ public class AnalisadorSemantico {
 					condicao_legal = false;
 				}
 		}
-		if(condicao_legal){
-			System.out.println("Condicao legal!");
-		}
 		return condicao_legal;
 	}
 	public boolean verificar_scanf(Object variavel) {
@@ -139,9 +130,6 @@ public class AnalisadorSemantico {
 		if(tabelaSimbolos.get(variavel)==null) {
 			System.out.println("Erro: Variavel [" + variavel + "] precisa ser declarada antes de ser lida.");
 			condicao_legal = false;
-		}
-		if(condicao_legal){
-			System.out.println("Condicao legal!");
 		}
 		return condicao_legal;
 	}

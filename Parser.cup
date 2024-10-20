@@ -73,7 +73,7 @@ expressao::=  atribuicao_identificador:s SEMI {: RESULT = s; :}
 	| expressao_logica 
 ;
 
-atribuicao_identificador ::= IDENTIFICADOR:ident EQUAL dados:data SEMI
+atribuicao_identificador ::= IDENTIFICADOR:ident ASSIGN dados:data SEMI
 		{: 	if(analisadorsemantico.verificar_atribuicao(ident, data)) RESULT = "variavel: "+ ident + " atribuida a um valor: " + data;
 			else RESULT = "ERRO SEMANTICO";   
 		:}	     
@@ -157,7 +157,7 @@ comando_for::= FOR LPAREN atribuicao_identificador SEMI expressao_relacional SEM
 comando_while::= WHILE LPAREN expressao_relacional RPAREN bloco_de_comandos {: System.out.println("Comando WHILE encontrado\n "); :};
 
 comando_printf::= PRINTF LPAREN STRING:strg RPAREN SEMI {: RESULT = "Comando printf imprimindo " + strg ; gerador.gerar_printf(strg); :} 
-	| PRINTF LPAREN IDENTIFICADOR :var RPAREN SEMI{: RESULT = "Comando printf imprime variavel, com valor: " + var; :}
+	| PRINTF LPAREN IDENTIFICADOR :var RPAREN SEMI{: RESULT = "Comando printf imprime variavel: " + var; :}
 	|PRINTF LPAREN CARACTER:caracter RPAREN SEMI{: RESULT = "Comando printf imprime caracter, com valor: " + caracter; gerador.gerar_printf(caracter);:};
 
 comando_scanf::= SCANF LPAREN IDENTIFICADOR:var RPAREN SEMI 

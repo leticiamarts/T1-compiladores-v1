@@ -35,7 +35,7 @@ class Main {
             } else {
                 parse_tree = parser_obj.parse();
             }
-            System.out.println("Parsing concluído com sucesso.");
+            System.out.println("Parsing concluido com sucesso.");
         } catch (Exception e) {
             System.out.println("Parsing falhou: " + e.getMessage());
             e.printStackTrace(); // Exibe o stack trace para debugging.

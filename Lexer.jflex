@@ -43,7 +43,7 @@ Caracter = \"{Letra}\"
 "escanear" { return symbol(sym.SCANF); }
 "=" { return symbol(sym.EQUAL); }
 "!=" { return symbol(sym.DIFF); }
-// ":" { return symbol(sym.ASSIGN); }
+":" { return symbol(sym.ASSIGN); }
 ">" { return symbol(sym.GREATER); }
 "<" { return symbol(sym.LESSTHAN); }
 "<=" { return symbol(sym.LESSTHANEQ); }
